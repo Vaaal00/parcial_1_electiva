@@ -1,0 +1,17 @@
+service: electivaparcial
+frameworkVersion: '3'
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: python3.9
+
+functions:
+  message:
+    handler: handler.message
+    events:
+      - http:
+          path: /message
+          method: get
