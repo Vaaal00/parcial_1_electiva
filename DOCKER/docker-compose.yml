@@ -1,0 +1,32 @@
+services:
+  database:
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
+    container_name: database_eam_partial
+    restart: always 
+    ports:
+      - 4500:3306
+    volumes:
+      - ./MySQL/data:/var/lib/mysql 
+    hostname: partial_database
+    networks:
+      - eam_test
+    healthcheck:
+        test: ["CMD", "mysql", "-u", "root", "-proot_password_vm"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+  adminer_partial:
+    image: adminer
+    container_name: adminer_eam_partial
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - eam_test
+
+networks:
+  eam_test:
+      driver: bridge
+      name: eam_test
